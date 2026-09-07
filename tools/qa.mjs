@@ -106,6 +106,29 @@ const e = await stat();
 if (e.won) { console.error('CONTROL E FAILED: a deliberately wrong sequence was accepted as a win'); fail++; }
 else console.log(`control E ok  ${solD.length} wrong moves did not win`);
 
+/* control F: the very first frame must show a board. This is the one the whole
+   suite missed - every other check pressed a key first, which forced a
+   re-render and hid the fact that opening a game drew nothing at all. Counted
+   at phone width too, since that is where it was found. */
+for (const [w, h, label] of [[900, 1000, 'desktop'], [390, 844, 'phone']]) {
+  const pg = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 2 });
+  await pg.goto(base, { waitUntil: 'networkidle' });
+  await pg.waitForFunction(() => window.UNCUED);
+  await pg.click('[data-game="tl03"]');
+  await pg.waitForTimeout(500);
+  const lit = await pg.evaluate(() => {
+    const c = document.getElementById('cv');
+    if (!c.width || !c.height) return 0; // never sized: the board did not draw
+    const px = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+    const seen = new Set();
+    for (let i = 0; i < px.length; i += 4) seen.add(`${px[i]},${px[i + 1]},${px[i + 2]}`);
+    return seen.size;
+  });
+  if (lit < 3) { console.error(`CONTROL F FAILED: first frame at ${label} has ${lit} distinct colours, the board did not draw`); fail++; }
+  else console.log(`control F ok  first frame at ${label} draws ${lit} distinct colours before any key`);
+  await pg.close();
+}
+
 if (errors.length) { console.error(`\npage errors:\n  ${errors.join('\n  ')}`); fail++; }
 
 await browser.close();

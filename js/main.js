@@ -33,10 +33,13 @@ for (const g of GAMES) {
 
 function start(g) {
   engine.par = PAR[g.id];
-  engine.load(g);
+  // Unhide BEFORE loading. render() measures the canvas, and a hidden element
+  // measures 0x0, which drew nothing and left the first board blank until the
+  // player pressed a key.
   picker.hidden = true;
   box.hidden = false;
   ov.hidden = true;
+  engine.load(g);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

@@ -89,6 +89,12 @@ export class Engine {
     const { ctx, cv } = this;
     const dpr = window.devicePixelRatio || 1;
     const box = cv.getBoundingClientRect();
+    // Laid out at zero size, usually because an ancestor is still hidden.
+    // Drawing now produces a blank board, so wait for layout and try again.
+    if (box.width < 1 || box.height < 1) {
+      requestAnimationFrame(() => this.render());
+      return;
+    }
     const cell = Math.floor(Math.min(box.width / d.w, box.height / d.h));
     const gw = cell * d.w, gh = cell * d.h;
     const ox = Math.floor((box.width - gw) / 2), oy = Math.floor((box.height - gh) / 2);

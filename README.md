@@ -73,6 +73,8 @@ controls that fail in opposite directions:
   catches scoring that ignores how many actions you spent.
 - **E** a deliberately wrong sequence must not win - catches a page that
   celebrates anything.
+- **F** the first frame, before any key is pressed, must contain more than two
+  distinct colours - catches a board that never drew.
 
 Control C earned its place. It caught the generator overstating par on 8 levels:
 CHROMA keys its search on position and colour but wins on position alone, so
@@ -83,11 +85,15 @@ search key carries the last move but whose win condition does not. Fixed by
 collapsing to the shortest route per win-group, and the two implementations now
 agree on every level.
 
-Two more bugs got through every automated check and were caught only by looking
-at the frames: the game list stayed visible under an open game because
-`display: grid` beats the `hidden` attribute, and the player dot vanished
-whenever it stood on a cell of its own colour, which in CHROMA is every single
-door.
+Three more bugs got through every automated check and were caught only by
+looking at the frames. The game list stayed visible under an open game, because
+`display: grid` beats the `hidden` attribute. The player dot vanished whenever
+it stood on a cell of its own colour, which in CHROMA is every single door. And
+the board was blank until you pressed a key: `start()` rendered while the
+console was still hidden, a hidden element measures 0 by 0, so the canvas drew
+nothing. Twenty passing level replays could not see that last one, because
+replaying a level starts by pressing a key. Control F exists now, and it was
+confirmed to go red against the broken build before being kept.
 
 ## Running it
 
