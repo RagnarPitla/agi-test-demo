@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UNCUED - four games that explain nothing</title>
+<meta name="description" content="Four small grid games with no instructions. Work out the rule from the screen, then beat par. Scored with the ARC-AGI-3 efficiency formula.">
+<meta property="og:title" content="UNCUED">
+<meta property="og:description" content="Four small grid games with no instructions. Work out the rule, then beat par.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230b0b0d'/><circle cx='8' cy='8' r='3.4' fill='%2322c55e'/></svg>">
+</head>
+<body>
+
+<header class="top">
+  <h1>UNCUED</h1>
+  <p class="sub">Four games. No instructions. That is the whole idea.</p>
+</header>
+
+<main>
+  <section id="picker" class="picker"></section>
+
+  <section id="console" class="console" hidden>
+    <div class="bar">
+      <span class="badge" id="gid"></span>
+      <span class="title" id="gname"></span>
+      <span class="lvl" id="lvl"></span>
+    </div>
+
+    <div class="screen">
+      <canvas id="cv"></canvas>
+      <div class="overlay" id="ov" hidden></div>
+    </div>
+
+    <div class="hud">
+      <span>ACTIONS <b id="acts">0</b></span>
+      <button class="lnk" id="quit">ALL GAMES</button>
+    </div>
+
+    <div class="pad">
+      <div class="dpad">
+        <button data-act="UP" aria-label="up">&#9650;</button>
+        <button data-act="LEFT" aria-label="left">&#9664;</button>
+        <button data-act="DOWN" aria-label="down">&#9660;</button>
+        <button data-act="RIGHT" aria-label="right">&#9654;</button>
+      </div>
+      <div class="side">
+        <button id="undo">UNDO <kbd>Z</kbd></button>
+        <button id="reset">RESET <kbd>R</kbd></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <h2>How the score works</h2>
+  <p>
+    Each level is scored on efficiency, not on finishing:
+    <code>level_score = min(1.15, (par / your_actions)^2)</code>.
+    Squaring is what makes it bite. Take twice par and you score 0.25, not 0.5.
+    The game score is the average of the five level scores weighted by level
+    number, so level 5 counts five times as much as level 1. Finish four of five
+    and you are capped at 66.7 percent no matter how well you played.
+  </p>
+  <p>
+    That is the ARC-AGI-3 scoring rule, applied here.
+    <strong>One difference, and it matters:</strong> ARC's baseline is the median
+    of about 500 human players. Nobody has played these games yet, so par here is
+    optimal play, computed by breadth-first search over the full state space.
+    Optimal par is a harder yardstick than a human median. Beating 1.0 means you
+    matched a solver that can see every move at once.
+  </p>
+  <p class="links">
+    <a href="https://arcprize.org/arc-agi/3/">ARC-AGI-3</a>
+    <a href="https://three.arcprize.org/">Play the real thing</a>
+    <a href="https://github.com/RagnarPitla/uncued">Source</a>
+  </p>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
