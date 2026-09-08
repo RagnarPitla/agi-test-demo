@@ -45,8 +45,12 @@ await page.goto(base, { waitUntil: 'networkidle' });
 await page.waitForFunction(() => window.AGITEST, null, { timeout: 15000 });
 
 const shots = path.join(ROOT, 'qa');
-fs.rmSync(shots, { recursive: true, force: true });
 fs.mkdirSync(shots, { recursive: true });
+// Clear only the per-level shots this run rewrites. Wiping the whole directory
+// would also delete the live-site screenshots that tools/shot.mjs produces.
+for (const f of fs.readdirSync(shots)) {
+  if (/-L\d+\.png$/.test(f)) fs.rmSync(path.join(shots, f));
+}
 
 const openGame = async (id, li) => {
   await page.evaluate(([gid, l]) => {
