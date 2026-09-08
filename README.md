@@ -1,14 +1,17 @@
-# UNCUED
+# AGI test demo
 
-Four small grid games that tell you nothing. No tutorial, no goal text, no
-legend. You get a board and four arrow keys, and you work out the rule by
-pushing buttons and watching what changes.
+A playable demo of how an AGI benchmark actually tests intelligence.
 
-Play: **https://ragnarpitla.github.io/uncued/**
+Four grid games that tell you nothing. No tutorial, no goal text, no legend. You
+get a board and four arrow keys, and you work out the rule by pushing buttons
+and watching what changes.
 
-That is the format ARC Prize uses for ARC-AGI-3, where the point is measuring
-how fast something learns a system it has never seen. These are my own games,
-not copies of theirs.
+Play: **https://ragnarpitla.github.io/agi-test-demo/**
+
+That is the format ARC Prize uses for [ARC-AGI-3](https://arcprize.org/arc-agi/3/):
+it withholds instructions on purpose, because it is measuring how fast something
+learns a system it has never seen rather than how well it follows directions.
+These are my own games in that format, not copies of theirs.
 
 ## The four
 

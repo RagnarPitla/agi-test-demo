@@ -1,8 +1,8 @@
 import { chromium } from 'playwright';
 const b = await chromium.launch({ channel: 'chrome', headless: true });
 const p = await b.newPage({ viewport: { width: 820, height: 1180 }, deviceScaleFactor: 2 });
-await p.goto('https://ragnarpitla.github.io/uncued/', { waitUntil: 'networkidle' });
-await p.waitForFunction(() => window.UNCUED);
+await p.goto('https://ragnarpitla.github.io/agi-test-demo/', { waitUntil: 'networkidle' });
+await p.waitForFunction(() => window.AGITEST);
 await p.screenshot({ path: 'qa/live-landing.png', fullPage: true });
 await p.click('[data-game="ec04"]');
 await p.waitForTimeout(400);

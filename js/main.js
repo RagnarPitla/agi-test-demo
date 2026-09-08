@@ -104,4 +104,4 @@ $('quit').onclick = quit;
 addEventListener('resize', () => { if (!box.hidden) engine.render(); });
 
 // hooks for tools/qa.mjs, which replays the solver's exact solutions
-window.UNCUED = { engine, GAMES, PAR, start, gameScore };
+window.AGITEST = { engine, GAMES, PAR, start, gameScore };

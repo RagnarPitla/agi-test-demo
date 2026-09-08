@@ -42,7 +42,7 @@ page.on('pageerror', (e) => errors.push(String(e)));
 page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
 
 await page.goto(base, { waitUntil: 'networkidle' });
-await page.waitForFunction(() => window.UNCUED, null, { timeout: 15000 });
+await page.waitForFunction(() => window.AGITEST, null, { timeout: 15000 });
 
 const shots = path.join(ROOT, 'qa');
 fs.rmSync(shots, { recursive: true, force: true });
@@ -50,16 +50,16 @@ fs.mkdirSync(shots, { recursive: true });
 
 const openGame = async (id, li) => {
   await page.evaluate(([gid, l]) => {
-    const g = window.UNCUED.GAMES.find((x) => x.id === gid);
-    window.UNCUED.start(g);
-    window.UNCUED.engine.startLevel(l);
+    const g = window.AGITEST.GAMES.find((x) => x.id === gid);
+    window.AGITEST.start(g);
+    window.AGITEST.engine.startLevel(l);
   }, [id, li]);
 };
 const play = async (moves) => { for (const m of moves) await page.keyboard.press(KEY[m]); };
 const stat = () => page.evaluate(() => ({
-  won: window.UNCUED.engine.won,
-  actions: window.UNCUED.engine.actions,
-  score: window.UNCUED.engine.scores[window.UNCUED.engine.li],
+  won: window.AGITEST.engine.won,
+  actions: window.AGITEST.engine.actions,
+  score: window.AGITEST.engine.scores[window.AGITEST.engine.li],
 }));
 
 let fail = 0;
@@ -113,7 +113,7 @@ else console.log(`control E ok  ${solD.length} wrong moves did not win`);
 for (const [w, h, label] of [[900, 1000, 'desktop'], [390, 844, 'phone']]) {
   const pg = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 2 });
   await pg.goto(base, { waitUntil: 'networkidle' });
-  await pg.waitForFunction(() => window.UNCUED);
+  await pg.waitForFunction(() => window.AGITEST);
   await pg.click('[data-game="tl03"]');
   await pg.waitForTimeout(500);
   const lit = await pg.evaluate(() => {
